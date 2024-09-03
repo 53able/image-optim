@@ -22,6 +22,12 @@ export const optimize = (dirPath: string) => {
         return;
       }
 
+      // ファイルの存在を確認
+      if (!fs.existsSync(filePath)) {
+        console.log(`ファイルが存在しません: ${filePath}`);
+        return;
+      }
+
       const ext = path.extname(filename);
 
       switch (ext) {

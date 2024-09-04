@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "bin": {
-    "image-optim": "src/index.ts"
+    "image-optim": "tsx src/index.ts watch"
   },
   "scripts": {
     "dev": "tsx src/index.ts",
+    "watch": "tsx src/index.ts watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "53able",

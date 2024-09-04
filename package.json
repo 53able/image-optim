@@ -1,10 +1,10 @@
 {
   "name": "@53able/image-optim-cli",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "index.js",
   "bin": {
-    "image-optim": "tsx src/index.ts watch"
+    "image-optim": "tsx src/index.ts"
   },
   "scripts": {
     "dev": "tsx src/index.ts",

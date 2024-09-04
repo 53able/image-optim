@@ -45,20 +45,14 @@ export const optimize = (dirPath: string) => {
 
   fs.watch(dirPath, async (eventType, filename) => {
     if (!filename || fileList.includes(filename)) return;
+    if (!SUPPORTED_EXTENSIONS.test(filename)) return;
+    if (eventType !== 'rename') return;
 
-    if (eventType === 'rename' && SUPPORTED_EXTENSIONS.test(filename)) {
-      const filePath = path.resolve(dirPath, filename);
+    const filePath = path.resolve(dirPath, filename);
+    if (!fs.existsSync(filePath)) return;
 
-      if (!fs.existsSync(filePath)) {
-        logError(`ファイルが存在しません: ${filePath}`);
-        return;
-      }
-
-      const ext = path.extname(filename);
-      await optimizeImage(filePath, ext);
-      fileList.push(filename);
-    } else {
-      logInfo('画像ファイルではありません');
-    }
+    const ext = path.extname(filename);
+    await optimizeImage(filePath, ext);
+    fileList.push(filename);
   });
 };

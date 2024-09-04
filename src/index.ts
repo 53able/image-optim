@@ -9,7 +9,7 @@ import { optimize } from "./optimize";
 
 program
 .description("指定したディレクトリ内の画像を最適化します")
-.command("optimize")
+.command("watch")
 .argument("<dir>", "画像を保存するディレクトリ")
 .action((dir) => {
   const dirPath = path.resolve(dir);

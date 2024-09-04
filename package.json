@@ -1,6 +1,6 @@
 {
-  "name": "@53able/image-optim",
-  "version": "1.0.3",
+  "name": "@53able/image-optim-cli",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "bin": {

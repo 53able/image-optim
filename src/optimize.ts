@@ -17,16 +17,17 @@ const logError = (message: string) => console.error(message);
 const logInfo = (message: string) => console.log(message);
 
 const optimizeImage = async (filePath: string, ext: string) => {
+  const fileName = path.basename(filePath);
   try {
     let data: Buffer;
     switch (ext) {
       case '.jpg':
       case '.jpeg':
-        logInfo('JPEG画像を最適化します');
+        logInfo(`JPEG画像を最適化します: ${fileName}`);
         data = await sharp(filePath).jpeg(JPEG_OPTIONS).toBuffer();
         break;
       case '.png':
-        logInfo('PNG画像を最適化します');
+        logInfo('PNG画像を最適化します: ${fileName}');
         data = await sharp(filePath).png(PNG_OPTIONS).toBuffer();
         break;
       default:
@@ -34,13 +35,15 @@ const optimizeImage = async (filePath: string, ext: string) => {
         return;
     }
     fs.writeFileSync(filePath, data);
-    logInfo('画像を最適化しました');
+    const now = new Date().toLocaleTimeString();
+    logInfo(`[${now}] ${fileName} を最適化しました`);
   } catch (err) {
     logError(`画像の最適化に失敗しました: ${err}`);
   }
 };
 
 export const optimize = (dirPath: string) => {
+  console.log(`Watching ${dirPath}...`);
   const fileList = fs.readdirSync(dirPath);
 
   fs.watch(dirPath, async (eventType, filename) => {

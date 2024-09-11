@@ -18,6 +18,10 @@ const logInfo = (message: string) => console.log(message);
 
 const optimizeImage = async (filePath: string, ext: string) => {
   const fileName = path.basename(filePath);
+  // 最適化前の画像サイズを取得
+  const stats = fs.statSync(filePath);
+  const fileSize = stats.size / 1024;
+  logInfo(`最適化前のファイルサイズ: ${fileSize.toFixed(1)} KB`);
   try {
     let data: Buffer;
     switch (ext) {
@@ -27,13 +31,16 @@ const optimizeImage = async (filePath: string, ext: string) => {
         data = await sharp(filePath).jpeg(JPEG_OPTIONS).toBuffer();
         break;
       case '.png':
-        logInfo('PNG画像を最適化します: ${fileName}');
+        logInfo(`PNG画像を最適化します: ${fileName}`);
         data = await sharp(filePath).png(PNG_OPTIONS).toBuffer();
         break;
       default:
         logInfo('対応していない拡張子です');
         return;
     }
+    // 最適化後の画像サイズ(data) のファイルサイズを取得
+    const optimizedFileSize = data.length / 1024;
+    logInfo(`最適化後のファイルサイズ: ${optimizedFileSize.toFixed(1)} KB`);
     fs.writeFileSync(filePath, data);
     const now = new Date().toLocaleTimeString();
     logInfo(`[${now}] ${fileName} を最適化しました`);

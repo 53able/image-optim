@@ -52,6 +52,7 @@ const optimizeImage = async (filePath: string, ext: string) => {
 export const optimize = (dirPath: string) => {
   console.log(`Watching ${dirPath}...`);
   const fileList = fs.readdirSync(dirPath);
+  const optimizedFiles = new Set<string>();
 
   fs.watch(dirPath, async (eventType, filename) => {
     if (!filename || fileList.includes(filename)) return;
@@ -60,6 +61,10 @@ export const optimize = (dirPath: string) => {
 
     const filePath = path.resolve(dirPath, filename);
     if (!fs.existsSync(filePath)) return;
+
+    // ファイルが最適化済みかどうかを確認
+    if (optimizedFiles.has(filePath)) return;
+    optimizedFiles.add(filePath); // 最適化済みとしてマーク
 
     const ext = path.extname(filename);
     await optimizeImage(filePath, ext);
